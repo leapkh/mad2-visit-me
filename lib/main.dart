@@ -1,58 +1,111 @@
 import 'package:flutter/material.dart';
 
 void main() {
-  // Build an app (tree of widget)
+  runApp(app());
+}
 
-  //            Last Level: Control
-  final txtHelloWorld = Text(
-    'Hello World!',
-    style: TextStyle(color: Colors.purple),
+Widget app() {
+  return MaterialApp(
+    home: placeDetailScreen(),
   );
-  final txtGreeting = Text("Welcome to ITE!");
+}
 
-  final icon = Icon(
-    Icons.saved_search,
-    size: 128,
-    color: Colors.blue,
+Widget homeScreen() {
+  final border = Border.all(
+    color: Colors.red,
+    width: 4,
+  );
+  final decoration = BoxDecoration(
+      borderRadius: BorderRadius.circular(50),
+      color: Colors.grey,
+      border: border);
+
+  final margin = EdgeInsets.all(16);
+
+  final container = Container(
+    width: 100,
+    height: 100,
+    decoration: decoration,
+    margin: margin,
   );
 
-  //        Level 2: Layout/Block
+  final container2 = Container(
+    width: 200,
+    height: 200,
+    color: Colors.purple,
+  );
 
-  final row = Row(
+  final column = Column(
+    crossAxisAlignment: CrossAxisAlignment.start,
     children: [
-      txtHelloWorld,
-      icon,
+      container,
+      container2,
     ],
   );
 
-  //final body = Center(child: txtHelloWorld);
-  final column = Column(
-    // mainAxisSize: MainAxisSize.min,
-    mainAxisAlignment: MainAxisAlignment.center,
-
-    crossAxisAlignment: CrossAxisAlignment.start,
-
-    children: [row, txtGreeting],
-  );
-
-  final center = Center(
-    child: column,
-  );
-
-  //    Level 1: HomeScreen
-  final homeScreen = Scaffold(
+  return Scaffold(
     body: column,
   );
+}
 
-  // Level 0: App
-  final app = MaterialApp(
-    home: homeScreen,
+Widget placeDetailScreen() {
+  final body = Column(
+    children: [
+      topWidget(),
+      menuWidget(),
+      descriptionWidget(),
+    ],
   );
 
-  //    - DetailScreen
-  //    - ProfileScreen
+  return Scaffold(
+    body: body,
+  );
+}
 
-  // Run the app
+Widget topWidget() {
+  return Container(
+    height: 300,
+    color: Colors.grey,
+  );
+}
 
-  runApp(app);
+Widget menuWidget() {
+  return Row(
+    mainAxisAlignment: MainAxisAlignment.center,
+    children: [
+      menuItemWidget('About', isActive: true),
+      menuItemWidget('Photos'),
+      menuItemWidget('Reviews'),
+    ],
+  );
+}
+
+Widget menuItemWidget(String title, {bool isActive = false}) {
+  final border = Border.all(color: Colors.green);
+  final radius = BorderRadius.circular(18);
+  final backgroundColor = isActive ? Colors.white : Colors.green;
+  final textColor = isActive ? Colors.green : Colors.white;
+  final decoration = BoxDecoration(
+      border: border, borderRadius: radius, color: backgroundColor);
+  final padding = EdgeInsets.symmetric(horizontal: 16);
+  final margin = EdgeInsets.all(8);
+
+  final textStyle = TextStyle(color: textColor);
+  final titleWidget = Text(
+    title,
+    style: textStyle,
+  );
+
+  return Container(
+    alignment: Alignment.center,
+    height: 36,
+    child: titleWidget,
+    decoration: decoration,
+    padding: padding,
+    margin: margin,
+  );
+}
+
+Widget descriptionWidget() {
+  return Text('descriptionWidget');
 }
