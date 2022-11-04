@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:visit_me/place.dart';
 
 void main() {
   runApp(app());
@@ -49,13 +50,15 @@ Widget homeScreen() {
 }
 
 Widget placeDetailScreen() {
-  final body = Column(
-    children: [
-      topWidget(),
-      menuWidget(),
-      const Divider(),
-      bottomWidget(),
-    ],
+  final body = SingleChildScrollView(
+    child: Column(
+      children: [
+        topWidget(),
+        menuWidget(),
+        const Divider(),
+        bottomWidget(),
+      ],
+    ),
   );
 
   return Scaffold(
@@ -163,12 +166,72 @@ Widget bottomWidget() {
           height: 16,
         ),
         iconAndInfoWidget(Icons.info,
-            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"),
+            "Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book. Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum has been the industry's standard dummy text ever since the 1500s, when an unknown printer took a galley of type and scrambled it to make a type specimen book"),
         SizedBox(
           height: 16,
         ),
         iconAndInfoWidget(Icons.location_on,
             "It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout."),
+        SizedBox(
+          height: 16,
+        ),
+        Text(
+          'Related Places',
+          style: TextStyle(fontSize: 18),
+        ),
+        relatedPlacesWidget(),
+      ],
+    ),
+  );
+}
+
+List<Place> places = [
+  Place(1, 'Royal Palace', 'img_royal_palace.png'),
+  Place(2, 'River Side', 'img_independent_monument.png'),
+  Place(3, 'National Museum', 'img_national_museum.png'),
+  Place(1, 'Royal Palace', 'img_national_museum.png'),
+  Place(2, 'River Side', 'img_independent_monument.png'),
+  Place(3, 'National Museum', 'img_national_museum.png'),
+];
+
+Widget relatedPlacesWidget() {
+  return SizedBox(
+    height: 120,
+    child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: places.length,
+        itemBuilder: placeItemWidget),
+  );
+
+  /*return SizedBox(
+    height: 120,
+    child: ListView.builder(
+        scrollDirection: Axis.horizontal,
+        itemCount: places.length,
+        itemBuilder: (BuildContext context, int index){
+          final place = places[index];
+          return Column(
+            children: [
+              Image.asset('lib/image/${place.imageName}'),
+              Text(place.name)
+            ],
+          );
+        }),
+  );*/
+}
+
+Widget placeItemWidget(BuildContext context, int index) {
+  final place = places[index];
+  return SizedBox(
+    width: 140,
+    child: Column(
+      children: [
+        Expanded(
+            child: Image.asset(
+          'lib/image/${place.imageName}',
+              fit: BoxFit.cover,
+        )),
+        Text(place.name)
       ],
     ),
   );
