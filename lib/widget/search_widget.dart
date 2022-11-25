@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 // Widget class
-class SearchScreen extends StatefulWidget {
+class SearchWidget extends StatefulWidget {
   @override
   State<StatefulWidget> createState() {
     return _State();
@@ -10,7 +10,7 @@ class SearchScreen extends StatefulWidget {
 }
 
 // State class
-class _State extends State<SearchScreen> {
+class _State extends State<SearchWidget> {
 
   List<String> keywords = [
     'royal palace',
@@ -24,28 +24,14 @@ class _State extends State<SearchScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final body = SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(
         children: [
-          toolbarWidget(),
           sectionTitleWidget('Recent Searches', Icons.recent_actors),
           recentSearchItemsWidget(),
           sectionTitleWidget('Advanced Searches', Icons.search),
         ],
       ),
-    );
-
-    return Scaffold(
-      body: body,
-    );
-  }
-
-  Widget toolbarWidget() {
-    return Container(
-      padding: EdgeInsets.all(8),
-      height: 54,
-      color: Colors.green,
-      child: TextField(),
     );
   }
 
