@@ -2,17 +2,16 @@ import 'dart:convert';
 import 'dart:ffi';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:http/http.dart';
+import 'package:visit_me/viewModel/province_list_view_model.dart';
 
 import '../model/province.dart';
 
-class ProvinceListWidget extends StatefulWidget {
-  @override
-  State<ProvinceListWidget> createState() => _ProvinceListWidgetState();
-}
-
-class _ProvinceListWidgetState extends State<ProvinceListWidget> {
+class ProvinceListWidget extends StatelessWidget {
   List<Province> provinceList = [];
+
+  final viewModel = Get.put(ProvinceListViewModel());
 
   @override
   Widget build(BuildContext context) {
@@ -30,16 +29,38 @@ class _ProvinceListWidgetState extends State<ProvinceListWidget> {
           });
         },*/
       onPressed: (){
-        loadProvinceList().then((value){
+        /*loadProvinceList().then((value){
           setState(() {
             provinceList = value;
           });
-        });
+        });*/
+        viewModel.loadProvince();
       },
         child: Text('Load Provinces'));
   }
 
   Widget provinceListView() {
+    return Obx(() {
+      print('Data changed');
+      final provinceList = viewModel.provinceListObs.value;
+      if(provinceList.isEmpty){
+        return const Center(child: CircularProgressIndicator(),);
+      } else {
+        return ListView.builder(
+          itemCount: provinceList.length,
+          itemBuilder: (context, index) {
+            final province = provinceList[index];
+            return ListTile(title: Text(province.name),
+            onTap: (){
+              viewModel.removeProvince(index);
+            },);
+          },
+        );
+      }
+    });
+
+
+
     if (provinceList.isEmpty) {
       return SizedBox.shrink();
     } else {
